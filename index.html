@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fomantic UI - Task</title>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.7/dist/semantic.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.7/dist/semantic.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        //   doc
+        $(".ui.checkbox").checkbox();
+
+        $("#login form").form({
+          on: "blur",
+          fields: {
+            email: {
+              identifier: "email",
+              rules: [
+                {
+                  type: "empty",
+                  prompt: "Please enter your email",
+                },
+              ],
+            },
+            password: {
+              identifier: "password",
+              rules: [
+                {
+                  type: "empty",
+                  prompt: "Please enter your password",
+                },
+              ],
+            },
+            checkbox: {
+              identifier: "checkbox",
+              rules: [
+                {
+                  type: "checked",
+                  prompt: "Please check the checkbox",
+                },
+              ],
+            },
+          },
+        });
+
+        $.fn.serializeFormJSON = function () {
+          var o = {};
+          var a = this.serializeArray();
+          $.each(a, function () {
+            if (o[this.name]) {
+              if (!o[this.name].push) {
+                o[this.name] = [o[this.name]];
+              }
+              o[this.name].push(this.value || "");
+            } else {
+              o[this.name] = this.value || "";
+            }
+          });
+          return o;
+        };
+
+        $("form").submit(function (e) {
+          e.preventDefault();
+          var data = $(this).serializeFormJSON();
+          console.log(data);
+        });
+
+        // ./doc
+      });
+    </script>
+  </head>
+  <body>
+    <div class="ui container">
+      <h1>Login Form</h1>
+      <!-- form -->
+      <div id="login">
+        <form class="ui form" id="form_id">
+          <div class="field">
+            <label>Email</label>
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              id="email"
+              autofocus
+            />
+          </div>
+          <div class="field">
+            <label>Password</label>
+            <input
+              type="password"
+              name="password"
+              id="password"
+              placeholder="Password"
+            />
+          </div>
+          <div class="field">
+            <div class="ui checkbox">
+              <input type="checkbox" name="checkbox" />
+              <label>I agree to the Terms and Conditions</label>
+            </div>
+          </div>
+          <button class="ui teal button" type="submit">Submit</button>
+          <div class="ui error message"></div>
+        </form>
+      </div>
+      <!-- ./form -->
+    </div>
+    <script></script>
+  </body>
+</html>
