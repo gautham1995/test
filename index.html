@@ -13,10 +13,33 @@
       $(document).ready(function () {
         //   doc
         $(".ui.checkbox").checkbox();
+        $(".ui.calendar").calendar({
+          type: "date",
+          startCalendar: 'November 12, 2020',
+          endCalendar: 'November 12, 2021'
+        });
 
         $("#login form").form({
           on: "blur",
           fields: {
+            iname: {
+              identifier: "iname",
+              rules: [
+                {
+                  type: "minLength[5]",
+                  prompt: "Your name should be morethan 5 characters",
+                },
+              ],
+            },
+            date: {
+              identifier: "date",
+              rules: [
+                {
+                  type: "empty",
+                  prompt: "Your date of birth should be below the year 2000",
+                },
+              ],
+            },
             email: {
               identifier: "email",
               rules: [
@@ -80,14 +103,21 @@
       <div id="login">
         <form class="ui form" id="form_id">
           <div class="field">
+            <label>Name</label>
+            <input type="text" name="iname" placeholder="Name" />
+          </div>
+          <div class="field">
+            <label>Date</label>
+            <div class="ui calendar">
+              <div class="ui input left icon">
+                <i class="calendar icon"></i>
+                <input type="text" placeholder="Pick up a date" name="date"/>
+              </div>
+            </div>
+          </div>
+          <div class="field">
             <label>Email</label>
-            <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              id="email"
-              autofocus
-            />
+            <input type="email" name="email" placeholder="Email" id="email" />
           </div>
           <div class="field">
             <label>Password</label>
