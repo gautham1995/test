@@ -13,10 +13,12 @@
       $(document).ready(function () {
         //   doc
         $(".ui.checkbox").checkbox();
-        $(".ui.calendar").calendar({
+
+        // var today = new Date();
+        $("#minmax_calendar").calendar({
           type: "date",
-          startCalendar: 'November 12, 2020',
-          endCalendar: 'November 12, 2021'
+          minDate: new Date(1899, 12, 01),
+          maxDate: new Date(1999, 11, 31),
         });
 
         $("#login form").form({
@@ -31,6 +33,32 @@
                 },
               ],
             },
+
+            integer: {
+              identifier: "integer",
+              rules: [
+                {
+                  type: "integer[18..]",
+                  prompt: "Your age must be above 18",
+                },
+              ],
+            },
+
+            city: {
+              identifier: "city",
+              rules: [
+                {
+                  type: "empty",
+                  prompt: "Please enter the capital city name",
+                },
+                {
+                  type: "contains[chennai]",
+                  prompt:
+                    "Chennai is the capital city of Tamil Nadu. Kindly enter it.",
+                },
+              ],
+            },
+
             date: {
               identifier: "date",
               rules: [
@@ -106,12 +134,24 @@
             <label>Name</label>
             <input type="text" name="iname" placeholder="Name" />
           </div>
+
+          <div class="two fields">
+            <div class="field">
+              <label>Age</label>
+              <input name="integer" type="text" />
+            </div>
+            <div class="field">
+              <label>Capital of Tamil Nadu ? (Custom Validation)</label>
+              <input placeholder="City" name="city" type="text" />
+            </div>
+          </div>
+
           <div class="field">
             <label>Date</label>
-            <div class="ui calendar">
+            <div class="ui calendar" id="minmax_calendar">
               <div class="ui input left icon">
                 <i class="calendar icon"></i>
-                <input type="text" placeholder="Pick up a date" name="date"/>
+                <input type="text" name="date" placeholder="Date" />
               </div>
             </div>
           </div>
