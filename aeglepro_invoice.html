@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>my first pdfmake example</title>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/pdfmake.min.js"
+      integrity="sha512-gYUM+7JjtBqPPGOgwgOZ+NwjGl+11/EP124oB+ihjlBpLgP5LTh7R/Iwcdy//cgH+QzrjspBiJI5iUegTNww3w=="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/vfs_fonts.min.js"
+      integrity="sha512-VIF8OqBWob/wmCvrcQs27IrQWwgr3g+iA4QQ4hH/YeuYBIoAUluiwr/NX5WQAQgUaVx39hs6l05cEOIGEB+dmA=="
+      crossorigin="anonymous"
+    ></script>
+    <!-- <script src="invoice.js"></script> -->
+  </head>
+  <body>
+    <script>
+      var win = window.open("", "_blank");
+    
+    var invoice = {
+        info: {
+            title: 'INVOICE BY AEGLEPRO',
+            author: 'john doe',
+            subject: 'subject of document',
+            keywords: 'keywords for document',
+          },
+          watermark: { text: 'test watermark', color: 'blue', opacity: 0.08, bold: true, italics: false },
+    
+        content: [
+          // {
+          //   columns: [
+          //     {
+          //       width: 'auto',
+          //       text: ''
+          //     },
+          //     {
+          //       width: 'auto',
+          //       text: 'AEGLEPRO INVOICE',
+          //       style: 'header'
+          //     }
+          //   ],
+          // },
+          {
+            text:'AEGLEPRO INVOICE',style: 'header', alignment: 'center', decoration: 'underline'
+          },
+          {
+            text:'M Gautham Asok',style: 'subheader'
+          },
+          {
+            columns: [
+              {
+                width: '50%',
+                text: 'Date Issued: 10 Nov 2020\nInvoice ID: 112114789508'
+              },
+              {
+                width: '50%',
+                alignment: 'right',
+                text: 'Apollo Hospitals\n21 Greams Lane, Off, Greams Road\nThousand Lights, Chennai,\n 600006'
+              }
+            ],
+            // optional space between columns
+            columnGap: 10
+          },
+          "\n\n\n",
+          {
+            style: 'tableExample',
+            layout: 'lightHorizontalLines',
+            table: {
+                widths: ["40%", "15%", "15%", "30%"],
+                body: [
+                    [{alignment: 'center',text:'DESCRIPTION'},
+                    {alignment: 'center',text:'DATE'},
+                    {alignment: 'center',text:'TIME'},
+                    {alignment: 'center',text:'SUBTOTAL'}],
+                    [
+                        'Appointment',
+                    {text: '10 Nov 2020', italics: true, alignment: 'center'},
+                    {text: '11:30 AM', italics: true, alignment: 'center'},
+                    {text: '₹ 500.00', italics: true, alignment: 'center'},
+                ],
+                [
+                    'Scanning',
+                    {text: '10 Nov 2020', italics: true, alignment: 'center'},
+                    {text: '03:30 PM', italics: true, alignment: 'center'},
+                    {text: '₹ 300.00', italics: true, alignment: 'center'}
+                ]
+                ]
+            }
+        },
+    "\n\n\n",
+    //////
+    {
+        style: 'tableExample',
+        table: {
+            widths: ["30%", "40%", "30%"],
+            headerRows: 1,
+            body: [
+                [{alignment: 'center', text: 'MODE OF PAYMENT', style: 'tableHeader'}, {alignment: 'center', text: 'PAYMENT DATE', style: 'tableHeader'}, {alignment: 'center', text: 'TOTAL', style: 'tableHeader'}],
+                // ['Sample value 1', 'Sample value 2', 'Sample value 3']
+                [
+                    {text: 'Google Pay', italics: true, color: 'black',alignment: 'center'},
+                    {text: '10 Nov 2020', italics: true, color: 'black',alignment: 'center'},
+                    {text: '₹ 700.00', italics: true, color: 'black',alignment: 'center'},
+                ]
+            ]
+        },
+        layout: {
+            
+            hLineColor: function (i, node) {
+                return (i === 0 || i === node.table.body.length) ? 'black' : 'gray';
+            },
+            vLineColor: function (i, node) {
+                return (i === 0 || i === node.table.widths.length) ? 'black' : 'gray';
+            },
+            // hLineStyle: function (i, node) { return {dash: { length: 10, space: 4 }}; },
+            // vLineStyle: function (i, node) { return {dash: { length: 10, space: 4 }}; },
+            // paddingLeft: function(i, node) { return 4; },
+            // paddingRight: function(i, node) { return 4; },
+            // paddingTop: function(i, node) { return 2; },
+            // paddingBottom: function(i, node) { return 2; },
+            // fillColor: function (rowIndex, node, columnIndex) { return null; }
+        }
+    },
+    //////////////
+    "\n\n\n",
+          {
+            style: 'tableExample',
+            layout: 'lightHorizontalLines',
+            table: {
+                widths: ["50%", "50%"],
+                body: [
+                    [{alignment: 'center',text:'OUTSTANDING BALANCE'},{alignment: 'center',text:'₹ 125.00', italics: true}],
+                [               
+                    {text: '\n\n\n', italics: true, color: 'gray',alignment: 'center'},{text: '', italics: true, color: 'gray',alignment: 'center'}
+                ]
+                ]
+            }
+        },
+        { qr: 'https://www.google.com/', foreground: 'black', background: 'white' , fit: '50', alignment: 'center'},
+        {text: '\nscan here or click this for our website\n\n', link: 'http://google.com' , decoration: 'underline', italics: true, color: 'gray',alignment: 'center'},
+        {text: 'Thank you!', bold: true, italics: true, color: 'black',alignment: 'center' ,  fontSize: 18}
+        ],
+    
+        footer: {
+            // columns: [
+            //   'Left part',
+            //   { text: 'Right part', alignment: 'right' }
+            // ]
+            text: [
+              {
+                text: [
+                  {text: 'Note: ', fontSize: 15, bold: true, alignment: 'center' },
+                  {text: 'This is a computer generated invoice therefore it do not need any signature.', italics: true},
+                  
+                ]
+              },
+              
+            ]
+          
+          },
+    
+      styles: {
+        header: {
+          fontSize: 18,
+          bold: true,
+          margin: [0, 0, 0, 10]
+        },
+        subheader: {
+          fontSize: 16,
+          bold: true,
+          margin: [0, 10, 0, 5]
+        },
+        tableExample: {
+          margin: [0, 5, 0, 15]
+        },
+        tableHeader: {
+          bold: true,
+          fontSize: 13,
+          color: 'black'
+        }
+      },
+      defaultStyle: {
+        // alignment: 'justify'
+      }
+      };
+      
+    pdfMake.createPdf(invoice).download("112114789508_invoice_aeglepro2.pdf");
+    pdfMake.createPdf(invoice).open({}, win);
+    </script>
+  </body>
+</html>
