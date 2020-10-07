@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Bootstrap Invoice</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+    <style>
+      .lc{
+        color: #00b3b0;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ### -->
+    <div id="payment_receipt" class="bg-white">
+      <div class="container mt-5">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-4">
+                <img alt="logo" src="logo.png" width="150" height="150" />
+              </div>
+              <div class="col-md-4">
+                <h3 class="text-center lc" style="letter-spacing: 3px;">INVOICE</h3>
+              </div>
+              <div class="col-md-4"></div>
+            </div>
+            <div class="row mt-5">
+                <div class="col-md-6">
+                  <h3 class="text-left">Client Name</h3>
+                  <p class="text-left">
+                    Date Issued: <strong>10 Nov 2020</strong><br />
+                    Invoice No: <strong>12345</strong>
+                  </p>
+                </div>
+                <div class="col-md-6">
+                  <h3 class="text-right">Apollo Hospitals</h3>
+                  <p class="text-right">
+                    21 Greams Lane, Off, Greams Road, Thousand Lights<br />
+                    Chennai 600006
+                  </p>
+                </div>
+              </div>
+            <table class="table mt-5">
+              <thead>
+                <tr>
+                    <th>DESCRIPTION</th>
+                    <th>RATE</th>
+                    <th>HOURS</th>
+                    <th>SUBTOTAL</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Appointment</td>
+                  <td>₹ 12.34</td>
+                  <td>100</td>
+                  <td><strong class="lc">₹ 1234.00</strong></td>
+                </tr>
+                <tr>
+                  <td>Scanning</td>
+                  <td>₹ 09.45</td>
+                  <td>10</td>
+                  <td><strong class="lc">₹ 94.50</strong></td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="mt-5">
+              <table class="table table-bordered">
+                <thead>
+                  <tr class="table-danger text-center">
+                    <th>OUTSTANDING BALANCE</th>
+                    <th>₹ 125.00</th>
+                  </tr>
+                </thead>
+                </table>
+            </div>
+
+            <!-- part2 -->
+            <div class="bg-light mt-5">
+              <div class="row">
+                <div class="col-md-12">
+                  
+                  <div class="jumbotron card card-block">
+                    <table class="table text-center">
+                        <thead>
+                          <tr>
+                            
+                            <th>BANK INFO</th>
+                            <th>DUE BY</th>
+                            <th>TOTAL DUE</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            
+                            <td><h1>Google Pay</h1></td>
+                            <td><h1>10 Nov 2020</h1></td>
+                            <td><h1 class="lc">₹ 1428.50</h1></td>
+                          </tr>
+                        </tbody>
+                      </table><hr>
+                    
+                    <div class="clearfix">
+                      <span class="float-left"><h2>❤️&nbsp;Thank You!</h2></span>
+                      <span class="float-right"><p>name@email.com | 0777 888 999 | website.com</p></span>
+                    </div>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- ./part2 -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- ### -->
+    <script>
+      var invoice = document.getElementById("payment_receipt");
+
+      var worker = html2pdf()
+        .from(invoice)
+        .toContainer()
+        .toPdf()
+        .save("1101124552_invoice.pdf");
+    </script>
+  </body>
+</html>
