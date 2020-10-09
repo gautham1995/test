@@ -16,14 +16,27 @@
 <body>
   <script>
 
-
     // var text = '{"appointment":{"customer":{"name":"Dileep","email":"dileep123@gmail.com","balance":500},"time":"Oct 8, 10.00 am","appointmentDetails":{"paymentMode":"Google Pay","aptFee":2000,"fee":1500}}}';
-
-    // var text = "{\"appointment1\":{\"customer\":{\"name\":\"Dileep\",\"email\":\"dileep123@gmail.com\",\"balance\":500},\"time\":\"Oct 8, 10.00 am\",\"appointmentDetails\":{\"paymentMode\":\"Google Pay\",\"aptFee\":2000,\"fee\":1500}},\"appointment2\":{\"customer\":{\"name\":\"Dileep\",\"email\":\"dileep123@gmail.com\",\"balance\":600},\"time\":\"Oct 10, 10.00 am\",\"appointmentDetails\":{\"paymentMode\":\"Cash\",\"aptFee\":3000,\"fee\":2500}}}";
 
     var text = "{\"appointment\":{\"customer\":{\"name\":\"Dileep\",\"email\":\"dileep123@gmail.com\",\"balance\":700},\"time\":\"Oct 8, 10.00 am\",\"appointmentDetails\":{\"treatment\":\"Cryotherapy\",\"paymentMode\":\"Google Pay\",\"aptFee\":2000,\"fee\":1300}},\"appointment2\":{\"customer\":{\"name\":\"Dileep\",\"email\":\"dileep123@gmail.com\",\"balance\":1000},\"time\":\"Oct 10, 04.30 pm\",\"appointmentDetails\":{\"treatment\":\"Muscle Stimulation\",\"paymentMode\":\"Google Pay\",\"aptFee\":2000,\"fee\":1700}}}";
 
     obj = JSON.parse(text);
+
+    function formatAMPM(date) {
+      var hours = date.getHours();
+      var minutes = date.getMinutes();
+      var ampm = hours >= 12 ? 'pm' : 'am';
+      hours = hours % 12;
+      hours = hours ? hours : 12; // the hour '0' should be '12'
+      minutes = minutes < 10 ? '0' + minutes : minutes;
+      var strTime = hours + ':' + minutes + ' ' + ampm;
+      return strTime;
+    }
+
+    var di;
+    var d = new Date();
+    var months = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"];
+    di = months[d.getMonth()] + " " + d.getDate() + ", " + formatAMPM(d);
 
     var i, cname, ltime, lpaymode, lbalance;
     var inline = [];
@@ -35,21 +48,14 @@
       lpaymode = obj[key].appointmentDetails.paymentMode;
       lbalance = obj[key].customer.balance;
 
-
       var a = { text: 'Appointment', margin: [1, 15, 1, 1], style: 'subheader2' };
-      // var b = obj[key].time;
       var b = { text: (obj[key].time), italics: true, alignment: 'center', margin: [1, 15, 1, 1], style: 'subheader2' };
-      // var c = obj[key].appointmentDetails.fee;
       var c = { text: "₹ " + (obj[key].appointmentDetails.fee), italics: true, alignment: 'left', margin: [1, 15, 1, 1], style: 'subheader' };
-      // var d = "Muscle Stimulation";
       var d = { text: (obj[key].appointmentDetails.treatment), margin: [1, 15, 1, 1], style: 'subheader2' };
-      // inline.push(a,b,c);
       tot += (obj[key].appointmentDetails.fee);
       qw = [a, d, b, c];
       inline.push(qw);
     }
-
-    // console.log(tot);
 
     var tab1 = [
       [{ alignment: 'left', text: 'DESCRIPTION', style: 'tableHeader', margin: [1, 1, 1, 10] },
@@ -61,8 +67,6 @@
 
     inline.forEach(i => tab1.push(i));
 
-
-    // var tab1 = "inline[0],inline[1]";
     ////// pdfmake
     var win = window.open("", "_blank");
     var invoice = {
@@ -72,7 +76,6 @@
         subject: 'Invoice',
         keywords: 'invoice',
       },
-      // watermark: { text: 'test watermark', color: 'blue', opacity: 0.08, bold: true, italics: false },
 
       content: [
         {
@@ -85,12 +88,11 @@
           columns: [
             {
               width: '50%',
-              // text: 'Date Issued: 10 Nov 2020\nInvoice ID: 112114789508'
               text: [
                 { text: 'Date Issued: ' },
-                { text: "sys time", bold: true, style: 'subheader2' },
+                { text: " " + di, bold: true, style: 'subheader2' },
                 { text: '\nInvoice ID: ', lineHeight: 1.5 },
-                { text: '\t112114789508', bold: true, style: 'subheader2' }
+                { text: '\t12114789508', bold: true, style: 'subheader2' }
               ]
             },
             {
@@ -105,7 +107,6 @@
         "\n\n\n",
         {
           style: 'tableExample',
-          // lineHeight: 2,
           margin: [1, 30, 1, 5],
           layout: 'headerLineOnly',
           table: {
@@ -133,20 +134,8 @@
           layout: 'lightHorizontalLines'
         },
         {
-          style: 'tableExample',
-          layout: 'lightHorizontalLines',
-          table: {
-            widths: ["50%", "50%"],
-            body: [
-              [{ alignment: 'right', text: 'OUTSTANDING BALANCE', style: 'subheader2', margin: [5, 1, 1, 5] },
-              { alignment: 'right', text: "₹ " + lbalance, italics: true, style: 'subheader', margin: [5, 1, 50, 5] },],
-              [
-                { text: '\n\n\n', italics: true, color: 'gray', alignment: 'right' }, { text: '', italics: true, color: 'gray', alignment: 'right' }
-              ]
-            ]
-          }
+          text: '\nOUTSTANDING BALANCE:\t' + "₹ " + lbalance, italics: true
         },
-        //////////////
         "\n\n\n",
 
         {
@@ -154,9 +143,6 @@
             { text: 'Note: ', fontSize: 15, bold: true, alignment: 'center' },
             { text: 'This is a computer generated invoice therefore it do not need any signature.\n\n\n', italics: true },]
         },
-        // {text: 'Thank you!', bold: true, italics: true, color: 'black',alignment: 'left' ,  fontSize: 18},
-        // {text: 'Thank you!', italics: true, color: 'black', alignment: 'right' }
-
         {
           alignment: 'justify',
           columns: [
@@ -212,8 +198,6 @@
           margin: [0, 5, 0, 15]
         },
         tableHeader: {
-          // bold: true,
-          // fontSize: 10,
           color: 'black'
         }
       },
